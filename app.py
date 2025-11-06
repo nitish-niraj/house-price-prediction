@@ -6,20 +6,33 @@ import gradio as gr
 import joblib
 import pandas as pd
 from huggingface_hub import hf_hub_download
+import os
+
+print("🔄 Downloading model files...")
 
 # Download model files
-model_path = hf_hub_download(
-    repo_id="niru-nny/house-price-prediction",
-    filename="house_price_model.joblib"
-)
-pipeline_path = hf_hub_download(
-    repo_id="niru-nny/house-price-prediction",
-    filename="preprocessing_pipeline.joblib"
-)
-
-# Load model and pipeline
-model = joblib.load(model_path)
-pipeline = joblib.load(pipeline_path)
+try:
+    model_path = hf_hub_download(
+        repo_id="niru-nny/house-price-prediction",
+        filename="house_price_model.joblib"
+    )
+    print(f"✅ Model downloaded: {model_path}")
+    
+    pipeline_path = hf_hub_download(
+        repo_id="niru-nny/house-price-prediction",
+        filename="preprocessing_pipeline.joblib"
+    )
+    print(f"✅ Pipeline downloaded: {pipeline_path}")
+    
+    # Load model and pipeline
+    print("🔄 Loading model and pipeline...")
+    model = joblib.load(model_path)
+    pipeline = joblib.load(pipeline_path)
+    print("✅ Model and pipeline loaded successfully!")
+    
+except Exception as e:
+    print(f"❌ Error loading model: {e}")
+    raise
 
 def predict_price(longitude, latitude, housing_median_age, total_rooms,
                   total_bedrooms, population, households, median_income,
