@@ -1,3 +1,24 @@
+---
+license: mit
+language:
+- en
+tags:
+- tabular-regression
+- scikit-learn
+- random-forest
+- house-prices
+- california-housing
+- real-estate
+- regression
+library_name: scikit-learn
+metrics:
+- rmse
+- r2
+datasets:
+- california-housing
+pipeline_tag: tabular-regression
+---
+
 # California House Price Prediction Model 🏠
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
