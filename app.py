@@ -2,23 +2,23 @@
 Gradio app for House Price Prediction Model
 Deploy this to Hugging Face Spaces for interactive inference
 """
-import gradio as gr
-import joblib
+import gradio as gr  # type: ignore
+import joblib  # type: ignore
 import pandas as pd
-from huggingface_hub import hf_hub_download
-import os
+from huggingface_hub import hf_hub_download  # type: ignore
+from typing import Any
 
 print("🔄 Downloading model files...")
 
 # Download model files
 try:
-    model_path = hf_hub_download(
+    model_path: str = hf_hub_download(  # type: ignore
         repo_id="niru-nny/house-price-prediction",
         filename="house_price_model.joblib"
     )
     print(f"✅ Model downloaded: {model_path}")
     
-    pipeline_path = hf_hub_download(
+    pipeline_path: str = hf_hub_download(  # type: ignore
         repo_id="niru-nny/house-price-prediction",
         filename="preprocessing_pipeline.joblib"
     )
@@ -26,17 +26,25 @@ try:
     
     # Load model and pipeline
     print("🔄 Loading model and pipeline...")
-    model = joblib.load(model_path)
-    pipeline = joblib.load(pipeline_path)
+    model: Any = joblib.load(model_path)  # type: ignore
+    pipeline: Any = joblib.load(pipeline_path)  # type: ignore
     print("✅ Model and pipeline loaded successfully!")
     
 except Exception as e:
     print(f"❌ Error loading model: {e}")
     raise
 
-def predict_price(longitude, latitude, housing_median_age, total_rooms,
-                  total_bedrooms, population, households, median_income,
-                  ocean_proximity):
+def predict_price(
+    longitude: float, 
+    latitude: float, 
+    housing_median_age: int,
+    total_rooms: int,
+    total_bedrooms: int, 
+    population: int, 
+    households: int, 
+    median_income: float,
+    ocean_proximity: str
+) -> str:
     """Predict house price based on input features"""
     
     # Create input dataframe
@@ -53,13 +61,13 @@ def predict_price(longitude, latitude, housing_median_age, total_rooms,
     })
     
     # Preprocess and predict
-    processed_data = pipeline.transform(input_data)
-    prediction = model.predict(processed_data)[0]
+    processed_data: Any = pipeline.transform(input_data)  # type: ignore
+    prediction: float = model.predict(processed_data)[0]  # type: ignore
     
     return f"${prediction:,.2f}"
 
 # Create Gradio interface
-demo = gr.Interface(
+demo: Any = gr.Interface(  # type: ignore
     fn=predict_price,
     inputs=[
         gr.Slider(-124.5, -114.0, value=-122.23, label="Longitude"),
